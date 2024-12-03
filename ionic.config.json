@@ -1,0 +1,7 @@
+{
+  "name": "OklaBackend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
