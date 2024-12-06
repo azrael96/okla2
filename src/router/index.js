@@ -3,6 +3,8 @@ import LoginPagePage from '@/views/LoginPage.vue';
 import SignUpPage from '@/views/SignUpPage.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import ProductosPage from '@/views/ProductosPage.vue';
+import UserInfoPage from '@/views/UserInfoPage.vue'
+import UserInfoEditPage from '@/views/UserInfoEditPage.vue';
 
 const routes = [
   {
@@ -25,9 +27,27 @@ const routes = [
     component: Dashboard
   },
   {
+    path: '/UserInfo',
+    name: 'UserInfo',
+    component: UserInfoPage
+  },
+  {
+    path: '/UserInfoEdit',
+    name: 'UserInfoEdit',
+    component: UserInfoEditPage
+  },
+  {
     path: '/Productos',
     name: 'Productos',
     component: ProductosPage
+  },
+  {
+    path: '/Productos/:id',
+    component: () => import('../views/ProductosDetailsPage.vue')
+  },
+  {
+    path: '/Productos/add',
+    component: () => import('../views/AddProductoPage.vue')
   },
 ]
 

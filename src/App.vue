@@ -6,6 +6,5 @@
 
 <script setup>
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { Storage } from '@ionic/storage';
 
 </script>

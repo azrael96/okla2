@@ -14,11 +14,11 @@
       </ion-header>  
 
       <ion-content>
-        <div v-if="isLoggedIn">
+        <div v-if="!isLoggedIn">
           <slot />
         </div>
-        <div v-if="!isLoggedIn">
-          <ion-button href="/Login" shape="round" expand="full" >Iniciar Sesión</ion-button>
+        <div v-if="isLoggedIn">
+          <ion-button href="/Dashboard" shape="round" expand="full" >Menu Principal</ion-button>
         </div>
 
       </ion-content>

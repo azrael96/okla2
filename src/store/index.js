@@ -1,60 +1,149 @@
 import { createStore } from 'vuex';
+import VuexPersist from 'vuex-persist';
+
+
+const vuexLocalStorage = new VuexPersist({
+  key: 'vuex',
+  storage: window.localStorage, 
+  /* USE IF STORE ONLY PERSIST PART OF THEIR STATE
+  reducer: state => ({
+    keepThisModule: state.keepThisModule,
+    keepThisModuleToo: state.keepThisModuleToo
+  }),
+  */
+})
+
+let initialState = {
+  "token": null,
+  "user": {}
+}
 
 const store = createStore({
+  plugins: [vuexLocalStorage.plugin],
   state() {
     return {
-      memories: [
+      /* login  */
+      isLoggedIn:false,
+      id: "",
+      name: "",
+      doc: "",
+      correo: "",
+      telefono: "",
+      username: "No user",
+
+      /* Productos */
+      productos: [
         {
-          id: 'm1',
-          image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Mighty_Mountains_with_Snow.jpg/640px-Mighty_Mountains_with_Snow.jpg',
-          title: 'A trip into the mountains',
-          description: 'It was a really nice trip!',
+          id: "1",
+          image: "https://oklahomacomputadores.com/wp-content/uploads/2024/07/1-7-850x850.png",
+          title: "tttt",
+          description: "tttt",
         },
         {
-          id: 'm2',
-          image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/A_surfer_surfing_on_the_ocean_%28Unsplash%29.jpg/640px-A_surfer_surfing_on_the_ocean_%28Unsplash%29.jpg',
-          title: 'Surfing the sea side',
-          description: 'Feeling the cool breeze',
+          id: "2",
+          image: "https://oklahomacomputadores.com/wp-content/uploads/2024/07/1-7-850x850.png",
+          title: "tttt",
+          description: "tttt",
         },
         {
-          id: 'm3',
-          image:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Indian_-_Food.jpg/640px-Indian_-_Food.jpg',
-          title: 'Good eating',
-          description: 'Really tasty!',
+          id: "3",
+          image: "https://oklahomacomputadores.com/wp-content/uploads/2024/07/1-7-850x850.png",
+          title: "tttt",
+          description: "tttt",
         },
       ],
     };
   },
   mutations: {
-    addMemory(state, memoryData) {
-      const newMemory = {
+    /* login  */
+    login(state){
+      state.isLoggedIn=true;
+    },
+
+    logout(state){
+      state.isLoggedIn=false;
+    },
+
+    setUserLogged(state, payload){
+      state.id=payload.id;
+      state.name=payload.name;
+      state.doc=payload.doc;
+      state.correo=payload.correo;
+      state.telefono=payload.telefono;
+      state.username=payload.username;
+    },
+
+    setUserDefault(state){
+      state.id="";
+      state.name="";
+      state.doc="";
+      state.correo="";
+      state.telefono="";
+      state.username="No User";
+    },
+    
+    /* Productos */
+    addProducto(state, productoData) {
+      const newProducto = {
         id: new Date().toISOString(),
-        title: memoryData.title,
-        image: memoryData.imageUrl,
-        description: memoryData.description
+        title: productoData.title,
+        image: productoData.imageUrl,
+        description: productoData.description
       };
 
-      state.memories.unshift(newMemory);
+      state.productos.unshift(newProducto);
     }
   },
   actions: {
-    addMemory(context, memoryData) {
-      context.commit('addMemory', memoryData);
+    /* login  */
+    login(context, payload){
+      context.commit('login');
+      context.commit('setUserLogged', payload);
+    },
+    logout(context){
+      context.commit('logout');
+      context.commit('setUserDefault');
+    },
+    setUserLogged(context, payload){
+      context.commit('setUserLogged', payload);
+    },
+    setUserDefault(context){
+      context.commit('setUserDefault');
+    },
+
+    /* Productos */
+    addProducto(context, productoData) {
+      context.commit('addProducto', productoData);
     }
   },
   getters: {
-    memories(state) {
-      return state.memories;
+    /* login  */
+    isAuthenticated(state) {
+      return state.isLoggedIn;
     },
-    memory(state) {
-      /*return (memoryId) => {
-        return state.memories.find((memory) => memory.id === memoryId);
-      };*/
+
+    getUsernameData(state){
+      return {
+        id: state.id,
+        name: state.name,
+        doc: state.doc,
+        correo: state.correo,
+        telefono: state.telefono,
+        username: state.username,
+      };
+    },
+
+    /* Productos */
+    productos(state) {
+      return state.productos;
+    },
+    producto(state) {
+      return (productoId) => {
+        return state.productos.find((producto) => producto.id === productoId);
+      };
     },
   },
+
 });
 
 export default store;

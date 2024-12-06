@@ -38,11 +38,15 @@ import './theme/core.css';
 
 /* Global Layout*/
 import BaseLayout from './views/components/BaseLayout.vue';
+import UnloggedLayout from './views/components/UnloggedLayout.vue';
 
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(store);
+
+  app.component('base-layout', BaseLayout);
+  app.component('unlogged-layout', UnloggedLayout);
 
 router.isReady().then(() => {
   app.mount('#app');
